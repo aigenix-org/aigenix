@@ -1,0 +1,47 @@
+uniprot_id,antigen_name,pathogen,label
+P59632,ORF3a protein (UniProt:P59632),SARS-CoV-1,1
+P59633,ORF3b protein (UniProt:P59633),SARS-CoV-1,1
+P59634,ORF6 protein (UniProt:P59634),SARS-CoV-1,1
+P59635,ORF7a protein (UniProt:P59635),SARS-CoV-1,1
+P59636,ORF9b protein (UniProt:P59636),SARS-CoV-1,1
+P59637,Envelope small membrane protein (UniProt:P59637),SARS-CoV-1,1
+P59594,Spike glycoprotein (UniProt:P59594),SARS-CoV-1,1
+P59595,Nucleoprotein (UniProt:P59595),SARS-CoV-1,1
+P59596,Membrane protein (UniProt:P59596),SARS-CoV-1,1
+P06821,Matrix protein 2 (UniProt:P06821),Influenza_A,1
+Q7TFA0,ORF8a protein (UniProt:Q7TFA0),SARS-CoV-1,1
+Q7TFA1,Protein non-structural 7b (UniProt:Q7TFA1),SARS-CoV-1,1
+Q7TLC7,Uncharacterized protein 14 (UniProt:Q7TLC7),SARS-CoV-1,1
+P0C0U1,Protein PB1-F2 (UniProt:P0C0U1),Influenza_A,1
+P03452,Hemagglutinin (UniProt:P03452),Influenza_A,1
+P03468,Neuraminidase (UniProt:P03468),Influenza_A,1
+P03466,Nucleoprotein (UniProt:P03466),Influenza_A,1
+P03485,Matrix protein 1 (UniProt:P03485),Influenza_A,1
+P03496,Non-structural protein 1 (UniProt:P03496),Influenza_A,1
+P03428,Polymerase basic protein 2 (UniProt:P03428),Influenza_A,1
+P03431,RNA-directed RNA polymerase catalytic subunit (UniProt:P03431),Influenza_A,1
+P03433,Polymerase acidic protein (UniProt:P03433),Influenza_A,1
+P0C6U8,Replicase polyprotein 1a (UniProt:P0C6U8),SARS-CoV-1,1
+P0C6X7,Replicase polyprotein 1ab (UniProt:P0C6X7),SARS-CoV-1,1
+P03508,Nuclear export protein (UniProt:P03508),Influenza_A,1
+A0A663DJA2,Putative ORF10 protein (UniProt:A0A663DJA2),SARS-CoV-2,1
+Q80H93,ORF8b protein (UniProt:Q80H93),SARS-CoV-1,1
+P0DTC2,Spike glycoprotein (UniProt:P0DTC2),SARS-CoV-2,1
+P0DTC1,Replicase polyprotein 1a (UniProt:P0DTC1),SARS-CoV-2,1
+P0DTC6,ORF6 protein (UniProt:P0DTC6),SARS-CoV-2,1
+P0DTC5,Membrane protein (UniProt:P0DTC5),SARS-CoV-2,1
+P0DTC4,Envelope small membrane protein (UniProt:P0DTC4),SARS-CoV-2,1
+P0DTC3,ORF3a protein (UniProt:P0DTC3),SARS-CoV-2,1
+P0DTC9,Nucleoprotein (UniProt:P0DTC9),SARS-CoV-2,1
+P0DTC8,ORF8 protein (UniProt:P0DTC8),SARS-CoV-2,1
+P0DTC7,ORF7a protein (UniProt:P0DTC7),SARS-CoV-2,1
+P0DTD3,Putative ORF9c protein (UniProt:P0DTD3),SARS-CoV-2,1
+P0DTD2,ORF9b protein (UniProt:P0DTD2),SARS-CoV-2,1
+P0DTD1,Replicase polyprotein 1ab (UniProt:P0DTD1),SARS-CoV-2,1
+P0DTD8,ORF7b protein (UniProt:P0DTD8),SARS-CoV-2,1
+P0DTG1,ORF3c protein (UniProt:P0DTG1),SARS-CoV-2,0
+P0DTF1,Putative ORF3b protein (UniProt:P0DTF1),SARS-CoV-2,1
+P0DTD7,Non-structural protein nsp1,SARS-CoV-2,0
+P0DTD5,Non-structural protein nsp2,SARS-CoV-2,0
+P59638,ORF9b-like protein,SARS-CoV-1,0
+P03498,Non-structural protein 2 NS2/NEP,Influenza_A,0
