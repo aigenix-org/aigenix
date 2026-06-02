@@ -1,5 +1,5 @@
 def main():
-    print("Hello from arterial!")
+    print("Hello from AiGenix!")
 
 
 if __name__ == "__main__":
