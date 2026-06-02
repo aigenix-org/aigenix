@@ -9,12 +9,12 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 # ──────────────────────────────────────────────────────────────────────────
 # 1. CONFIGURACIÓN Y TRADUCCIÓN
 # ──────────────────────────────────────────────────────────────────────────
-st.set_page_config(page_title="Aigenix: Antigenicity Classifier", page_icon="🧬", layout="wide")
+st.set_page_config(page_title="Aigenix: Antigenicity Predictor", page_icon="🧬", layout="wide")
 
 TEXTS = {
     "es": {
         "nav_predict": "🔬 Predictor", "nav_metrics": "📊 Métricas del Modelo", "nav_about": "ℹ️ Información",
-        "title": "🧬 Clasificador de Antigenicidad", "subtitle": "Herramienta de screening para candidatos vacunales.",
+        "title": "🧬 Predictor de Antigenicidad", "subtitle": "Herramienta de screening para candidatos vacunales.",
         "input_header": "ENTRADA DE SECUENCIA", "upload_btn": "Subir FASTA", "process_btn": "▶ Procesar Secuencias",
         "top_candidate": "MEJOR CANDIDATO", "prob_label": "Prob. Antigénica", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
         "model_stats": "Rendimiento Real del Modelo", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
@@ -26,7 +26,7 @@ TEXTS = {
     },
     "en": {
         "nav_predict": "🔬 Predictor", "nav_metrics": "📊 Model Metrics", "nav_about": "ℹ️ About",
-        "title": "🧬 Antigenicity Classifier", "subtitle": "Research tool for vaccine candidate screening.",
+        "title": "🧬 Antigenicity Predictor", "subtitle": "Research tool for vaccine candidate screening.",
         "input_header": "SEQUENCE INPUT", "upload_btn": "Upload FASTA", "process_btn": "▶ Process Sequence",
         "top_candidate": "TOP CANDIDATE", "prob_label": "Antigenic Probability", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
         "model_stats": "Real Model Performance", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
@@ -256,7 +256,7 @@ def compute_features(seq):
 # 5. NAVEGACIÓN
 # ──────────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🧬 AiGenix \n Antigenicity Classifier")
+    st.markdown("## 🧬 AiGenix \n Antigenicity Predictor")
     st.markdown("**v1.0**")
     st.markdown("---")
     page = st.radio("Nav", [T["nav_predict"], T["nav_metrics"], T["nav_about"]], label_visibility="collapsed")
