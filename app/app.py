@@ -169,7 +169,12 @@ with st.sidebar:
 
 # --- PÁGINA 1: PREDICTOR ---
 if page == T["nav_predict"]:
-    st.markdown(f"## {T['title']}")
+    st.markdown(f"""
+    <div class="centered-header">
+        <h1>{T['title']}</h1>
+        <p style='color:#666'>{T['subtitle']}</p>
+    </div>
+    """, unsafe_allow_html=True)
     col_l, col_r = st.columns([2, 1])
 
     with col_l:
@@ -293,4 +298,4 @@ else:
         st.write("- Sequence-based only (no 3D folding considered).")
 
 st.markdown("---")
-st.markdown("<div style='text-align:center;font-size:11px;color:#aaa'>AIGENIX · 2025 | 🟢 Pipeline Operational</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align:center;font-size:11px;color:#aaa'>AIGENIX · 2026 | 🟢 Pipeline Operational</div>", unsafe_allow_html=True)
