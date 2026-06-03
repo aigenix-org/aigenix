@@ -225,11 +225,15 @@ def get_local_explanation(feats, score):
 def generate_explanation(name, feats, score):
     if not GEMINI_API_KEY: return get_local_explanation(feats, score)
     prompt = f"Explain in 4 sentences in {lang_choice} why a protein with Length {feats['length']}, MW {feats['mw']}kDa, pI {feats['pi']} and GRAVY {feats['gravy']} has an antigenic score of {score:.3f}. No markdown."
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     try:
         resp = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
+        print("STATUS:", resp.status_code)      # <-- añade esto
+        print("RESPONSE:", resp.json())          # <-- y esto
         return resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip() if resp.status_code==200 else get_local_explanation(feats, score)
-    except: return get_local_explanation(feats, score)
+    except Exception as e:
+        print("ERROR:", e)                       # <-- y esto
+        return get_local_explanation(feats, score)
 
 def compute_features(seq):
     clean = "".join(aa for aa in seq.upper() if aa in AA_ORDER)
@@ -246,6 +250,8 @@ def compute_features(seq):
 # 5. NAVEGACIÓN
 # ──────────────────────────────────────────────────────────────────────────
 with st.sidebar:
+    with st.sidebar:
+        st.caption(f"API Key: {'✅ OK' if GEMINI_API_KEY else '❌ No encontrada'}")
     st.markdown("## 🧬 AiGenix \n Antigenicity Predictor")
     st.markdown("**v1.0**")
     st.markdown("---")
