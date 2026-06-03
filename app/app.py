@@ -250,8 +250,6 @@ def compute_features(seq):
 # 5. NAVEGACIÓN
 # ──────────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    with st.sidebar:
-        st.caption(f"API Key: {'✅ OK' if GEMINI_API_KEY else '❌ No encontrada'}")
     st.markdown("## 🧬 AiGenix \n Antigenicity Predictor")
     st.markdown("**v1.0**")
     st.markdown("---")
