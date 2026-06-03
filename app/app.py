@@ -17,7 +17,7 @@ TEXTS = {
         "title": "🧬 Predictor de Antigenicidad", "subtitle": "Herramienta de screening para candidatos vacunales.",
         "input_header": "ENTRADA DE SECUENCIA", "upload_btn": "Subir FASTA", "process_btn": "▶ Procesar Secuencias",
         "top_candidate": "MEJOR CANDIDATO", "prob_label": "Prob. Antigénica", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
-        "model_stats": "Rendimiento Real del Modelo", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
+        "model_stats": "Rendimiento del Modelo", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
         "ai_explanation": "🤖 ANÁLISIS CIENTÍFICO (Aigenix AI)", "gen_btn": "Generar Explicación Científica",
         "loading_ai": "Analizando propiedades moleculares...", "download_csv": "⬇ Descargar resultados CSV",
         "threshold_msg": "Umbral optimizado para evitar falsos negativos.",
@@ -29,7 +29,7 @@ TEXTS = {
         "title": "🧬 Antigenicity Predictor", "subtitle": "Research tool for vaccine candidate screening.",
         "input_header": "SEQUENCE INPUT", "upload_btn": "Upload FASTA", "process_btn": "▶ Process Sequence",
         "top_candidate": "TOP CANDIDATE", "prob_label": "Antigenic Probability", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
-        "model_stats": "Real Model Performance", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
+        "model_stats": "Model Performance", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
         "ai_explanation": "🤖 SCIENTIFIC ANALYSIS (Aigenix AI)", "gen_btn": "Generate AI Explanation",
         "loading_ai": "Analyzing molecular properties...", "download_csv": "⬇ Download results as CSV",
         "threshold_msg": "Model threshold optimized for zero false negatives.",
@@ -38,9 +38,9 @@ TEXTS = {
     }
 }
 
-if "lang" not in st.session_state: st.session_state.lang = "es"
+if "lang" not in st.session_state: st.session_state.lang = "en"
 lang_choice = st.sidebar.selectbox("🌐 Idiom", ["Español", "English"])
-st.session_state.lang = "es" if lang_choice == "Español" else "en"
+st.session_state.lang = "en" if lang_choice == "English" else "es"
 T = TEXTS[st.session_state.lang]
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -63,17 +63,6 @@ st.markdown("""
     --btn-text: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        /* Modo Oscuro - Tonos de Azul Medianoche (No negro) */
-        --grey-bg: #0b1a2a;      /* Fondo total azul muy oscuro */
-        --card-bg: #162a3e;      /* Tarjetas azul marino profundo */
-        --card-border: #243b55;  /* Bordes azulados */
-        --main-text: #e0f0ff;    /* Texto azul muy claro/blanco */
-        --btn-bg: #ffffff;       /* Botón blanco en modo oscuro */
-        --btn-text: #1a3a5c;     /* Letras azules en botón blanco */
-    }
-}
 
 /* 2. ESTILOS GENERALES Y RESPONSIVE */
 .stApp { 
@@ -81,8 +70,9 @@ st.markdown("""
 }
 
 .block-container {
-    max-width: 1000px !important;
+    max-width: 100vw !important;
     padding-top: 2rem !important;
+    margin-top: 1rem;
     margin: auto;
 }
 
@@ -342,7 +332,7 @@ elif page == T["nav_metrics"]:
     st.markdown(f'<div class="section-header">{T["imp_title"]}</div>', unsafe_allow_html=True)
     vc1, vc2 = st.columns(2)
     with vc1:
-        st.markdown("**ROC Curve (Validation)**")
+        st.markdown("**ROC Curve**")
         fpr = np.linspace(0, 1, 100)
         tpr = fpr ** (1/2.5) # Simulación visual de la curva
         fig_roc, ax_roc = plt.subplots(figsize=(4, 3))

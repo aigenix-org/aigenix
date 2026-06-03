@@ -1,27 +1,27 @@
 import joblib
 
-# Cambia la ruta si es necesario
 PATH = "models/best_model_mvp.pkl"
 
 try:
-    contenido = joblib.load(PATH)
-    print("--- INFORMACIÓN DEL MODELO ---")
-    print(f"Tipo de objeto: {type(contenido)}")
-
-    if isinstance(contenido, dict):
-        print("✅ Es un DICCIONARIO (Bundle). Contiene estas llaves:")
-        for llave in contenido.keys():
-            print(f" - {llave}")
+    data = joblib.load(PATH)
+    if isinstance(data, dict):
+        print("📊 CONTENIDO DEL BUNDLE:")
         
-        # Verificar si las métricas están dentro
-        if "test_metrics" in contenido:
-            print("\n✅ MÉTRICAS ENCONTRADAS:")
-            print(contenido["test_metrics"])
-        else:
-            print("\n❌ NO HAY MÉTRICAS ('test_metrics') en el diccionario.")
+        # Revisar Test
+        if "test_metrics" in data:
+            print("\n✅ MÉTRICAS DE TEST (Hold-out set):")
+            print("Estas son las mejores para mostrar. Indican éxito con datos nuevos.")
+            for k, v in data["test_metrics"].items():
+                print(f" - {k}: {v:.4f}")
+        
+        # Revisar Validación
+        if "val_metrics" in data:
+            print("\n⚠️ MÉTRICAS DE VALIDACIÓN (Cross-Validation):")
+            print("Son útiles, pero suelen ser más altas que las de test.")
+            for k, v in data["val_metrics"].items():
+                print(f" - {k}: {v:.4f}")
     else:
-        print("❌ Es SOLO EL MODELO (no es un diccionario).")
-        print("Para ver métricas, debes guardar el modelo como un diccionario.")
+        print("El archivo no es un diccionario, solo contiene el objeto del modelo.")
 
 except Exception as e:
-    print(f"Error al cargar el archivo: {e}")
+    print(f"Error: {e}")

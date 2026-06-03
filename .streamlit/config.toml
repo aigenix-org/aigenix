@@ -1,6 +1,8 @@
 [theme]
-base="light"
 primaryColor="#2980b9"
 backgroundColor="#f4f7fa"
 secondaryBackgroundColor="#ffffff"
 textColor="#243447"
+
+[server]
+enableCORS=false
