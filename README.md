@@ -1,4 +1,4 @@
-# 🧬 Antigen Predictor
+# 🧬 AiGenix: Antigenicity Predictor
 
 **Protein antigenicity classifier using Machine Learning.**  
 Final project of the [Saturdays.AI](https://saturdays.ai) Machine Learning track.
@@ -100,8 +100,6 @@ No protein language model embeddings or 3D structure features are used.
 
 | Model | AUC-ROC (CV) | AUC-ROC (Test) | F1-score (Test) | Recall (Test) |
 |---|---|---|---|---|
-| Majority classifier | ~0.50 | — | — | — |
-| Logistic Regression | — | — | — | — |
 | **Random Forest** | **0.72 ± σ** | **0.65** | **0.943** | **1.0** |
 
 The most important result is **Recall = 1.0 on the independent test set**: the model detected 100% of antigenic proteins without a single false negative. In a vaccine candidate screening context, this means no potential antigen is discarded in the initial filter — which is the critical safety property for this use case.
@@ -124,34 +122,41 @@ Live at **[aigenix.streamlit.com](https://aigenix.streamlit.com)**
 ## Repository structure
 
 ```
-antigen_predictor/
+AIGENIX/
 │
+├── app/
+│   └── app.py
+│
+├── assets/
+│   
+├── data/
+│   └── processed/
+│   └── raw/
+│
+├── docs/
+│   └── glossary_of_terms.md
+│   └── project_viability_analysis.md
+│
+├── models/
+│   └── best_model_mvp.pkl
 ├── notebooks/
 │   ├── download_files.ipynb
 │   ├── 00_acquisition.ipynb
 │   ├── 01_exploration.ipynb
 │   ├── 02_construction.ipynb
 │   └── 03_model.ipynb
-│
-├── app/
-│   └── app.py
-│
-├── src/
-│
-├── data/
-│   └── dataset.csv
-│
-├── models/
-│   └── model.pkl
+│   └── 04_model_comparison.ipynb
+│   └── 05_overfitting_analysis.ipynb
 │
 ├── sample_input/
-│   └── covid_proteins.fasta
+│   └── influenza_a_h1n1.fasta
+│   └── sars_cov2_structurals.fasta
 │
-├── docs/
+├── src/
+│   └── train_model_mvp.py
 │
 ├── main.py
 ├── check_model.py
-├── models.json
 ├── pyproject.toml
 └── README.md
 ```
@@ -218,7 +223,7 @@ Developed as the capstone project of the [Saturdays.AI](https://saturdays.ai) Ma
 
 ## Contributing
 
-We welcome contributions of all kinds — bug reports, feature suggestions, improvements to the model or the app. Feel free to open an issue or submit a pull request.
+We welcome contributions of all kinds — bug reports, feature suggestions, improvements to the model or the app.
 
 ---
 
