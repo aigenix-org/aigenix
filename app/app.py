@@ -9,15 +9,15 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 # ──────────────────────────────────────────────────────────────────────────
 # 1. CONFIGURACIÓN Y TRADUCCIÓN
 # ──────────────────────────────────────────────────────────────────────────
-st.set_page_config(page_title="Aigenix: Antigenicity Classifier", page_icon="🧬", layout="wide")
+st.set_page_config(page_title="Aigenix: Antigenicity Predictor", page_icon="🧬", layout="wide")
 
 TEXTS = {
     "es": {
         "nav_predict": "🔬 Predictor", "nav_metrics": "📊 Métricas del Modelo", "nav_about": "ℹ️ Información",
-        "title": "🧬 Clasificador de Antigenicidad", "subtitle": "Herramienta de screening para candidatos vacunales.",
+        "title": "🧬 Predictor de Antigenicidad", "subtitle": "Herramienta de screening para candidatos vacunales.",
         "input_header": "ENTRADA DE SECUENCIA", "upload_btn": "Subir FASTA", "process_btn": "▶ Procesar Secuencias",
         "top_candidate": "MEJOR CANDIDATO", "prob_label": "Prob. Antigénica", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
-        "model_stats": "Rendimiento Real del Modelo", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
+        "model_stats": "Rendimiento del Modelo", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
         "ai_explanation": "🤖 ANÁLISIS CIENTÍFICO (Aigenix AI)", "gen_btn": "Generar Explicación Científica",
         "loading_ai": "Analizando propiedades moleculares...", "download_csv": "⬇ Descargar resultados CSV",
         "threshold_msg": "Umbral optimizado para evitar falsos negativos.",
@@ -26,10 +26,10 @@ TEXTS = {
     },
     "en": {
         "nav_predict": "🔬 Predictor", "nav_metrics": "📊 Model Metrics", "nav_about": "ℹ️ About",
-        "title": "🧬 Antigenicity Classifier", "subtitle": "Research tool for vaccine candidate screening.",
+        "title": "🧬 Antigenicity Predictor", "subtitle": "Research tool for vaccine candidate screening.",
         "input_header": "SEQUENCE INPUT", "upload_btn": "Upload FASTA", "process_btn": "▶ Process Sequence",
         "top_candidate": "TOP CANDIDATE", "prob_label": "Antigenic Probability", "ranking_title": "VACCINE CANDIDATE RANKING PANEL",
-        "model_stats": "Real Model Performance", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
+        "model_stats": "Model Performance", "auc_test": "AUC-ROC (Test)", "recall_test": "Recall (Test)",
         "ai_explanation": "🤖 SCIENTIFIC ANALYSIS (Aigenix AI)", "gen_btn": "Generate AI Explanation",
         "loading_ai": "Analyzing molecular properties...", "download_csv": "⬇ Download results as CSV",
         "threshold_msg": "Model threshold optimized for zero false negatives.",
@@ -38,9 +38,9 @@ TEXTS = {
     }
 }
 
-if "lang" not in st.session_state: st.session_state.lang = "es"
-lang_choice = st.sidebar.selectbox("🌐 Idioma", ["Español", "English"])
-st.session_state.lang = "es" if lang_choice == "Español" else "en"
+if "lang" not in st.session_state: st.session_state.lang = "en"
+lang_choice = st.sidebar.selectbox("🌐 Idiom", ["Español", "English"])
+st.session_state.lang = "en" if lang_choice == "English" else "es"
 T = TEXTS[st.session_state.lang]
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -48,62 +48,148 @@ T = TEXTS[st.session_state.lang]
 # ──────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-:root { --blue-dark:#1a3a5c; --blue-mid:#1e5799; --blue-light:#2980b9; --grey-bg:#f4f7fa; --text-light:#8899aa; }
-.stApp { background: var(--grey-bg); }
-/* Esto pone el fondo azul */
-[data-testid="stSidebar"] { background: var(--blue-dark) !important; }
+/* 1. VARIABLES DE COLOR - PALETA AZUL PROFUNDO */
+:root {
+    --blue-dark: #1a3a5c;
+    --blue-mid: #1e5799;
+    --blue-light: #2980b9;
+    
+    /* Modo Claro */
+    --grey-bg: #f4f7fa;
+    --card-bg: #ffffff;
+    --card-border: #dce3ea;
+    --main-text: #1a3a5c;
+    --btn-bg: #1e5799;
+    --btn-text: #ffffff;
+}
 
-/* Esto pone las letras generales en blanco */
-[data-testid="stSidebar"] * { color: white !important; }
 
-/* Esto fuerza que el texto dentro del buscador/selector sea gris oscuro */
-div[data-baseweb="select"] * { color: #333333 !important; }
-            
-.card { background:#fff; border:1px solid #dce3ea; border-radius:8px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
-.section-header { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-light); border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:14px; }
-.top-candidate-box { background: linear-gradient(135deg, #1a3a5c, #2980b9); color:#fff; border-radius:8px; padding:20px; text-align:center; }
-.badge-score { background:#e74c3c; color:#fff; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:700; }
+/* 2. ESTILOS GENERALES Y RESPONSIVE */
+.stApp { 
+    background-color: var(--grey-bg) !important; 
+}
 
-/* Limitar el ancho de la página para que se vea centrada */
 .block-container {
-    max-width: 1000px !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    max-width: 100vw !important;
+    padding-top: 2rem !important;
+    margin-top: 1rem;
     margin: auto;
 }
 
-/* Centrar el título y subtítulo */
+/* Forzar color de texto en todos los niveles */
+h1, h2, h3, h4, h5, h6, p, span, label, .stMarkdown {
+    color: var(--main-text) !important;
+}
+
+/* 3. BARRA LATERAL (SIDEBAR) - SIEMPRE FIJA */
+[data-testid="stSidebar"] { 
+    background-color: var(--blue-dark) !important; 
+}
+
+/* Texto del sidebar siempre blanco */
+[data-testid="stSidebar"] * { 
+    color: white !important; 
+}
+
+/* Corregir visibilidad del selector de idioma */
+div[data-baseweb="select"] * { 
+    color: #333333 !important; /* Texto oscuro dentro del cuadro blanco del select */
+}
+
+/* 4. TARJETAS (CARDS) */
+.card { 
+    background-color: var(--card-bg) !important; 
+    border: 1px solid var(--card-border) !important; 
+    border-radius: 12px; 
+    padding: 1.5rem; 
+    margin-bottom: 1rem; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.section-header { 
+    font-size: 11px; 
+    font-weight: 700; 
+    letter-spacing: .1em; 
+    text-transform: uppercase; 
+    color: var(--text-light); 
+    border-bottom: 1px solid var(--card-border); 
+    padding-bottom: 8px; 
+    margin-bottom: 15px; 
+}
+
+/* 5. COMPONENTES ESPECIALES */
 .centered-header {
     text-align: center;
     margin-bottom: 2rem;
-}            
+}
 
-/* Ajuste para que las columnas no se peguen en móvil */
+.top-candidate-box { 
+    background: linear-gradient(135deg, #1a3a5c, #2980b9); 
+    color: #fff !important; 
+    border-radius: 12px; 
+    padding: 25px; 
+    text-align: center; 
+}
+/* Forzar que el texto dentro del Top Candidate sea blanco siempre */
+.top-candidate-box * { color: #fff !important; }
+
+.badge-score { 
+    background: #e74c3c; 
+    color: #fff !important; 
+    padding: 4px 12px; 
+    border-radius: 20px; 
+    font-size: 12px; 
+    font-weight: 700; 
+}
+
+/* 6. BOTÓN PRINCIPAL (PROCESAR) */
+.stButton > button {
+    background-color: var(--btn-bg) !important;
+    color: var(--btn-text) !important;
+    border: none !important;
+    padding: 0.6rem 2rem !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    opacity: 0.95;
+}
+
+/* 7. CORRECCIÓN DEL FILE UPLOADER EN MODO OSCURO */
+[data-testid="stFileUploader"] {
+    background-color: var(--card-bg) !important;
+    border: 1px dashed var(--card-border) !important;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* 8. AJUSTES DE COLUMNAS PARA MÓVIL */
 [data-testid="column"] {
     width: 100% !important;
-    flex: 1 1 calc(50% - 1rem); /* Permite que se apilen si no hay espacio */
 }
 
-/* Tarjetas responsivas */
-.card {
-    background:#fff; 
-    border:1px solid var(--grey-border); 
-    border-radius:8px; 
-    padding: 1.2rem; /* Usar rem en lugar de px */
-    margin-bottom: 1rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-/* Media Query para móviles */
 @media (max-width: 768px) {
-    .score-big { font-size: 32px !important; } /* Texto más pequeño en móvil */
-    .top-candidate-box { padding: 15px !important; }
-    .stPlot { width: 100% !important; }
+    .block-container { padding: 1rem !important; }
+    .score-big { font-size: 28px !important; }
+}
+            
+/* Forzar texto blanco en la tarjeta de presentación de About */
+.about-card {
+    background: linear-gradient(135deg, #1a3a5c, #2980b9) !important;
+    padding: 30px !important;
+    border: none !important;
 }
 
-/* Corregir el selector de idioma para que sea legible */
-div[data-baseweb="select"] * { color: #333333 !important; }
-[data-testid="stSidebar"] * { color: white !important; }
+.about-card h1, .about-card h2, .about-card p, .about-card span {
+    color: white !important;
+}
+            
 </style>    
 """, unsafe_allow_html=True)
 
@@ -139,11 +225,15 @@ def get_local_explanation(feats, score):
 def generate_explanation(name, feats, score):
     if not GEMINI_API_KEY: return get_local_explanation(feats, score)
     prompt = f"Explain in 4 sentences in {lang_choice} why a protein with Length {feats['length']}, MW {feats['mw']}kDa, pI {feats['pi']} and GRAVY {feats['gravy']} has an antigenic score of {score:.3f}. No markdown."
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
     try:
         resp = requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=10)
+        print("STATUS:", resp.status_code)      # <-- añade esto
+        print("RESPONSE:", resp.json())          # <-- y esto
         return resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip() if resp.status_code==200 else get_local_explanation(feats, score)
-    except: return get_local_explanation(feats, score)
+    except Exception as e:
+        print("ERROR:", e)                       # <-- y esto
+        return get_local_explanation(feats, score)
 
 def compute_features(seq):
     clean = "".join(aa for aa in seq.upper() if aa in AA_ORDER)
@@ -160,12 +250,12 @@ def compute_features(seq):
 # 5. NAVEGACIÓN
 # ──────────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🧬 AiGenix: Antigenicity\nClassifier")
-    st.markdown("**v2.5.0 ENGINE**")
+    st.markdown("## 🧬 AiGenix \n Antigenicity Predictor")
+    st.markdown("**v1.0**")
     st.markdown("---")
     page = st.radio("Nav", [T["nav_predict"], T["nav_metrics"], T["nav_about"]], label_visibility="collapsed")
     st.markdown("---")
-    st.caption("AIGENIX \nSaturdays.ai 2026")
+    st.caption("Demo Day - \nSaturdays.ai - Madrid 2026")
 
 # --- PÁGINA 1: PREDICTOR ---
 if page == T["nav_predict"]:
@@ -251,7 +341,7 @@ elif page == T["nav_metrics"]:
     st.markdown(f'<div class="section-header">{T["imp_title"]}</div>', unsafe_allow_html=True)
     vc1, vc2 = st.columns(2)
     with vc1:
-        st.markdown("**ROC Curve (Validation)**")
+        st.markdown("**ROC Curve**")
         fpr = np.linspace(0, 1, 100)
         tpr = fpr ** (1/2.5) # Simulación visual de la curva
         fig_roc, ax_roc = plt.subplots(figsize=(4, 3))
@@ -271,11 +361,17 @@ elif page == T["nav_metrics"]:
 # --- PÁGINA 3: ABOUT (Contenido Original) ---
 else:
     st.markdown(f"## {T['nav_about']}")
-    st.markdown("""
-    <div class="card" style="background:linear-gradient(135deg,#1a3a5c,#2980b9);color:#fff;padding:32px">
-        <h2 style="color:#fff;margin:0">Empirical Precision in Antigenicity Prediction</h2>
-        <p style="opacity:.85;margin-top:8px">A robust analytical framework designed to identify potential epitopes through high-density physicochemical feature sets.</p>
-    </div>""", unsafe_allow_html=True)
+    
+   # Aplicamos la clase 'about-card' para que el CSS sepa que esta debe ser blanca
+    st.markdown(f"""
+    <div class="card about-card">
+        <h2 style="margin:0;">Empirical Precision in Antigenicity Prediction</h2>
+        <p style="opacity: 0.9; margin-top: 10px;">
+            A robust analytical framework designed to identify potential epitopes through 
+            high-density physicochemical feature sets.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     tabs = st.tabs([T["tab1"], T["tab2"], T["tab3"], T["tab4"], T["tab5"]])
     with tabs[0]:
@@ -289,13 +385,31 @@ else:
     with tabs[2]:
         st.markdown("### Data Repository")
         st.write("Training corpus based on IEDB experimental assays. Specifically curated for SARS-CoV-2 and Influenza A.")
+        # Styled link button
+        st.markdown("""
+            <br><a href="https://www.iedb.org" target="_blank" 
+            style="background-color: #1e5799; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">
+                Visit IEDB.org Database ↗
+            </a><br><br>
+        """, unsafe_allow_html=True)
     with tabs[3]:
         st.markdown("### Feature Engineering (24 total)")
         st.write("Calculated features include length, molecular weight, isoelectric point, GRAVY, and the frequency of 20 standard amino acids.")
+        st.markdown("""
+        **Physicochemical Properties:**
+        - **Length:** Total number of amino acids. Longer proteins have a higher statistical probability of containing multiple immunogenic epitopes.
+        - **Molecular Weight (MW):** Total mass in Daltons. Reflects the protein's size and structural complexity.
+        - **Isoelectric Point (pI):** The pH at which the net charge is zero. This influences MHC binding affinity, protein solubility, and cellular localization.
+        - **GRAVY (Hydropathy):** Grand Average of Hydropathy. Negative values indicate **hydrophilic** proteins (more likely to be surface-exposed), while positive values indicate **hydrophobic** proteins.
+        
+        **Amino Acid Composition (20 features):**
+        - Normalized frequency (percentage) of each standard amino acid. Specific residues (such as Proline or Lysine) often show higher propensity in known B-cell and T-cell epitopes.
+        """)
     with tabs[4]:
         st.error("⚠ Research tool only. Not for clinical diagnosis.")
         st.write("- Dataset limited to specific pathogens.")
-        st.write("- Sequence-based only (no 3D folding considered).")
+        st.write("- Sequence-Only Analysis: Input features are exclusively sequence-based. The model does not account for 3D folding, post-translational glycosylation, or complex cellular processing.")
+        st.write("- Screening Tool vs. Clinical Predictor: A high score does not guarantee that the protein will be an effective vaccine antigen. This is a preliminary screening filter, not a clinical predictor of success.")
 
 st.markdown("---")
 st.markdown("<div style='text-align:center;font-size:11px;color:#aaa'>AIGENIX · 2026 | 🟢 Pipeline Operational</div>", unsafe_allow_html=True)
