@@ -8,6 +8,8 @@ Final project of the [Saturdays.AI](https://saturdays.ai) Machine Learning track
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange?logo=scikit-learn)](https://scikit-learn.org/)
 [![Biopython](https://img.shields.io/badge/Biopython-bioinformatics-green)](https://biopython.org/)
 
+![AiGenix demo](assets/Demo_AiGenix.gif)
+
 ---
 
 ## What does this project do?
