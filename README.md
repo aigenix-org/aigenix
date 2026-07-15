@@ -8,7 +8,7 @@ Final project of the [Saturdays.AI](https://saturdays.ai) Machine Learning track
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange?logo=scikit-learn)](https://scikit-learn.org/)
 [![Biopython](https://img.shields.io/badge/Biopython-bioinformatics-green)](https://biopython.org/)
 
-![AiGenix demo](assets/Demo_AiGenix.gif)
+![AiGenix demo](https://github.com/user-attachments/assets/c5168ea8-e981-4794-9624-f9d2caf3fa72)
 
 ---
 
@@ -24,7 +24,9 @@ This kind of tool could be used as a fast in silico filter to prioritize vaccine
 
 ## Context and motivation
 
-This is an educational Machine Learning project applied to bioinformatics. The goal is to build a complete pipeline — from obtaining and cleaning real data to deploying a functional web interface — while learning to critically evaluate the results.
+This is an educational Machine Learning project applied to bioinformatics.
+
+When developing vaccines for new viruses, not all the proteins that make up the new pathogen are as useful. There can be a dozen of them and they can have different response levels from our immune system, which makes some better than others. The usual process to identify the best candidates is determined by the researcher's intuition and is usually a long and expensive process of trial and error. So we wondered if data and artificial intelligence could help in this process and speed up development. And it can!
 
 The pathogens used as case studies are **SARS-CoV-2** and **Influenza A**, chosen for their clinical relevance and the abundance of available experimental data.
 
@@ -75,13 +77,13 @@ The resulting dataset has a 7:1 class imbalance (1,198 antigenic vs. 167 non-ant
 
 Calculated with **Biopython** from the amino acid sequence of each protein (24 features total):
 
-| Feature | Description |
-|---|---|
-| Length | Number of amino acids |
-| Amino acid composition | Percentage of each of the 20 standard amino acids |
-| Molecular weight | In Daltons |
-| Isoelectric point | pH at which the net charge of the protein is zero |
-| Mean hydrophobicity | GRAVY index — negative values indicate hydrophilic proteins more likely to be surface-exposed |
+| Feature                | Description                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------- |
+| Length                 | Number of amino acids                                                                         |
+| Amino acid composition | Percentage of each of the 20 standard amino acids                                             |
+| Molecular weight       | In Daltons                                                                                    |
+| Isoelectric point      | pH at which the net charge of the protein is zero                                             |
+| Mean hydrophobicity    | GRAVY index — negative values indicate hydrophilic proteins more likely to be surface-exposed |
 
 No protein language model embeddings or 3D structure features are used.
 
@@ -98,9 +100,9 @@ No protein language model embeddings or 3D structure features are used.
 
 ### Results
 
-| Model | AUC-ROC (CV) | AUC-ROC (Test) | F1-score (Test) | Recall (Test) |
-|---|---|---|---|---|
-| **Random Forest** | **0.72 ± σ** | **0.65** | **0.943** | **1.0** |
+| Model             | AUC-ROC (CV) | AUC-ROC (Test) | F1-score (Test) | Recall (Test) |
+| ----------------- | ------------ | -------------- | --------------- | ------------- |
+| **Random Forest** | **0.72 ± σ** | **0.65**       | **0.943**       | **1.0**       |
 
 The most important result is **Recall = 1.0 on the independent test set**: the model detected 100% of antigenic proteins without a single false negative. In a vaccine candidate screening context, this means no potential antigen is discarded in the initial filter — which is the critical safety property for this use case.
 
@@ -119,76 +121,13 @@ Live at **[aigenix.streamlit.app](https://aigenix.streamlit.app)**
 
 ---
 
-## Repository structure
-
-```
-AIGENIX/
-│
-├── app/
-│   └── app.py
-│
-├── assets/
-│   
-├── data/
-│   └── processed/
-│   └── raw/
-│
-├── docs/
-│   └── glossary_of_terms.md
-│   └── project_viability_analysis.md
-│
-├── models/
-│   └── best_model_mvp.pkl
-├── notebooks/
-│   ├── download_files.ipynb
-│   ├── 00_acquisition.ipynb
-│   ├── 01_exploration.ipynb
-│   ├── 02_construction.ipynb
-│   └── 03_model.ipynb
-│   └── 04_model_comparison.ipynb
-│   └── 05_overfitting_analysis.ipynb
-│
-├── sample_input/
-│   └── influenza_a_h1n1.fasta
-│   └── sars_cov2_structurals.fasta
-│
-├── src/
-│   └── train_model_mvp.py
-│
-├── main.py
-├── check_model.py
-├── pyproject.toml
-└── README.md
-```
-
----
-
-## Requirements
-
-```
-Python 3.9+
-biopython
-scikit-learn
-pandas
-matplotlib
-streamlit
-joblib
-```
-
-Installation:
-
-```bash
-pip install biopython scikit-learn pandas matplotlib streamlit joblib
-```
-
----
-
 ## How to use
 
 **Model training:**  
-Run the notebooks in order from Google Colab: `download_files → 00 → 01 → 02 → 03`.
+Run the notebooks in order: `download_files → 00 → 01 → 02 → 03`.
 
-**Web interface:**  
+**Web interface:**
+
 ```bash
 cd app
 streamlit run app.py
@@ -202,28 +141,22 @@ Upload a FASTA file with the proteins to evaluate. The app loads the saved model
 
 ## Limitations
 
-- The model is trained exclusively on SARS-CoV-2 and Influenza A data. Its ability to generalize to other pathogens is unknown.
+- The model is trained exclusively on SARS-CoV-2 and Influenza A data.
 - Features are based solely on sequence. 3D structure, glycosylation, and cellular processing are not considered.
-- The dataset contains label noise: proteins labeled as non-antigenic may simply be understudied, not truly non-antigenic. In immunology, absence of evidence is not evidence of absence.
 - A high score does not guarantee that a protein is a good vaccine antigen. It is an indicative filter, not a clinical predictor.
+- This is an educational project, results should be taken as a list of candidates for further experimental validation, not as a definitive answer.
 
 ---
 
-## The team
+## 💪 Teamwork
 
 Developed as the capstone project of the [Saturdays.AI](https://saturdays.ai) Machine Learning track — Madrid edition.
 
-| Name | LinkedIn | GitHub |
-|---|---|---|
-| Iris Amorim | [LinkedIn](https://www.linkedin.com/in/irisamorim/) | [GitHub](https://github.com/IrisFernandaAmorim) |
-| Alejandro Aparicio | [LinkedIn](https://www.linkedin.com/in/magnitopic/) | [GitHub](https://github.com/magnitopic) |
-| Joaquin Lazaro | [LinkedIn](https://www.linkedin.com/in/joaquin-lazarom/) | [GitHub](https://github.com/JoaquinLazaro26) |
-
----
-
-## Contributing
-
-We welcome contributions of all kinds — bug reports, feature suggestions, improvements to the model or the app.
+| Name               | LinkedIn                                                 | GitHub                                          |
+| ------------------ | -------------------------------------------------------- | ----------------------------------------------- |
+| Iris Amorim        | [LinkedIn](https://www.linkedin.com/in/irisamorim/)      | [GitHub](https://github.com/IrisFernandaAmorim) |
+| Alejandro Aparicio | [LinkedIn](https://www.linkedin.com/in/magnitopic/)      | [GitHub](https://github.com/magnitopic)         |
+| Joaquin Lazaro     | [LinkedIn](https://www.linkedin.com/in/joaquin-lazarom/) | [GitHub](https://github.com/JoaquinLazaro26)    |
 
 ---
 
